@@ -8,8 +8,11 @@ idf_component_register(
         "captdns.h"
         "SimpleWebServer.cpp"
         "SimpleWebServer.h"
+        "SetupApi.cpp"
+        "SetupApi.h"
     ${EXTRA_SRCS}
     INCLUDE_DIRS
         "."
+        "./include"
     )
 

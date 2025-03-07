@@ -12,12 +12,20 @@ public:
 
     void run();
     inline std::string hostname() { return m_hostname; };
+    void apStarted();
+    void apStopped();
+    void enterApMode();
+    void tryConnectWifi(std::string ssid, std::string password);
     [[nodiscard]] inline bool stationConnected() const { return m_stationConnected; };
+    inline std::string ssid() { return m_ssid; };
 
 private:
     void processCommand(std::vector<std::string> args);
     esp_err_t mountStorage(const char *basePath);
     esp_err_t unmountStorage();
+    std::string generateHostname(const std::string &hostname_base);
+    void spiffsUpdate(const char *from);
+    void firmwareUpdate(const char *from);
 
     std::string m_hostname;
     bool m_stationConnected;
@@ -27,20 +35,6 @@ private:
     std::string m_password;
     bool m_apMode = false;
     bool m_testConnection = false;
-
-    std::string generateHostname(const std::string &hostname_base);
-
-    void enterApMode();
-
-    void apStarted();
-
-    void apStopped();
-
-    void tryConnectWifi(std::string ssid, std::string password);
-
-    void spiffsUpdate(const char *from);
-
-    void firmwareUpdate(const char *from);
 };
 
 extern AppMain appMain;

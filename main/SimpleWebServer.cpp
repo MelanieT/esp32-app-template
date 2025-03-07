@@ -197,15 +197,7 @@ esp_err_t SimpleWebServer::root_get_handler(httpd_req_t *req)
         return ESP_OK;
     }
 
-    httpd_resp_send_404(req);
-    return ESP_OK;
-    
-//    return download_get_handler(req);
-
-//    httpd_resp_set_type(req, "text/html");
-//    httpd_resp_send(req, "<h1>Hello Secure World!</h1>", HTTPD_RESP_USE_STRLEN);
-//
-//    return ESP_OK;
+    return download_get_handler(req);
 }
 
 httpd_handle_t SimpleWebServer::start_webserver(const char *basePath)

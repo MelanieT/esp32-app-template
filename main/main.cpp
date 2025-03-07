@@ -9,7 +9,9 @@
 #include "SimpleWebServer.h"
 #include "CPPNVS.h"
 #include "EventHandler.h"
+#include "spiffs-ota.h"
 #include "captdns.h"
+#include "SetupApi.h"
 
 using namespace std;
 
@@ -61,7 +63,7 @@ void AppMain::run()
 
     mountStorage("/data");
 
-    // TODO: Init API
+    SetupApi::init();
 
     if (nvs.get("ssid", &m_ssid))
     {
@@ -76,13 +78,22 @@ void AppMain::run()
 
     m_hostname = generateHostname(TAG);
 
-    wifi.setStationHostname(generateHostname(TAG));
+    wifi.setStationHostname(m_hostname);
     wifi.setWifiEventHandler(new EventHandler());
 
     if (!m_ssid.empty() && !m_password.empty())
+    {
         wifi.connectAP(m_ssid, m_password, false, WIFI_MODE_APSTA);
+
+        static MDNS mdns;
+        mdns.setHostname(m_hostname);
+        mdns.serviceAdd(nullptr, "_http", "_tcp", 80);
+        mdns.serviceInstanceSet("_http", "_tcp", "_server");
+    }
     else
+    {
         enterApMode();
+    }
 
     vTaskDelete(nullptr);
 }

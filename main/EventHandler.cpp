@@ -50,21 +50,21 @@ esp_err_t EventHandler::staDisconnected(wifi_event_sta_disconnected_t *info)
     }
     else
     {
-//        appMain.enterApMode();
-        esp_restart();
+        appMain.enterApMode();
+//        esp_restart();
     }
 
     return WiFiEventHandler::staDisconnected(info);
 }
 
-//esp_err_t EventHandler::apStart()
-//{
-//    appMain.apStarted();
-//    return WiFiEventHandler::apStart();
-//}
-//
-//esp_err_t EventHandler::apStop()
-//{
-//    appMain.apStopped();
-//    return WiFiEventHandler::apStop();
-//}
+esp_err_t EventHandler::apStart()
+{
+    appMain.apStarted();
+    return WiFiEventHandler::apStart();
+}
+
+esp_err_t EventHandler::apStop()
+{
+    appMain.apStopped();
+    return WiFiEventHandler::apStop();
+}
