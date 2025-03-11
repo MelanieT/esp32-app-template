@@ -43,6 +43,8 @@ esp_err_t EventHandler::staDisconnected(wifi_event_sta_disconnected_t *info)
     }
 
     disconnect_count++;
+    printf("Diconnect count %d\n", disconnect_count);
+
     if (disconnect_count < 5)
     {
         esp_phy_erase_cal_data_in_nvs();

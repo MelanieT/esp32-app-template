@@ -21,7 +21,7 @@ Ota ota;
 Console *console = nullptr;
 WiFi wifi;
 AppMain appMain;
-esp_netif_t *ap_netif; // For the DNS
+CaptiveDns captDns;
 
 void AppMain::processCommand(vector<string> args) // Do not move, do not pass by ref, we WANT a copy
 {
@@ -83,7 +83,7 @@ void AppMain::run()
 
     if (!m_ssid.empty() && !m_password.empty())
     {
-        wifi.connectAP(m_ssid, m_password, false, WIFI_MODE_APSTA);
+        wifi.connectSTA(m_ssid, m_password, false);
 
         static MDNS mdns;
         mdns.setHostname(m_hostname);
@@ -107,22 +107,57 @@ void AppMain::enterApMode()
 
     m_apMode = true;
 
-    esp_wifi_stop();
+    wifi.disconnectSTA();
     wifi.startAP(generateHostname(TAG), "", WIFI_AUTH_OPEN);
 
-    ap_netif = wifi.getAccessPointIf();
+    m_stationConnected = false;
+
+    if (!m_ssid.empty() && !m_password.empty() && !m_stationModeRetryTimer)
+    {
+        m_stationModeRetryTimer = xTimerCreate("StationRetry", 1800000 / portTICK_PERIOD_MS, pdFALSE, this,
+                                               retryStationModeThunk);
+        xTimerStart(m_stationModeRetryTimer, 500 / portTICK_PERIOD_MS);
+    }
+}
+
+void AppMain::retryStationModeThunk(TimerHandle_t handle)
+{
+    void *data = pvTimerGetTimerID(handle);
+    ((AppMain *)data)->retryStationMode(handle);
+}
+
+void AppMain::retryStationMode(TimerHandle_t handle) const
+{
+    if (!m_stationConnected)
+        esp_restart();
+
+//    printf("Retry timer\n");
+//
+//    tryConnectWifi(m_ssid, m_password);
+//
+//    if (m_stationConnected)
+//    {
+//        wifi.stopAP();
+//
+//        xTimerDelete(handle, 500 / portTICK_PERIOD_MS);
+//        m_stationModeRetryTimer = nullptr;
+//    }
 }
 
 void AppMain::apStarted()
 {
-    captdnsInit();
-    m_webserver = SimpleWebServer::start_webserver("/data");
+    captDns.start();
+    if (!m_webserver)
+        m_webserver = SimpleWebServer::start_webserver("/data");
 }
 
 void AppMain::apStopped()
 {
-    SimpleWebServer::stop_webserver(m_webserver);
-    captdnsStop();
+    if (m_webserver)
+        SimpleWebServer::stop_webserver(m_webserver);
+    m_webserver = nullptr;
+
+    captDns.stop();
 }
 
 
@@ -177,27 +212,29 @@ string AppMain::generateHostname(const string& hostname_base)
 
 void AppMain::tryConnectWifi(std::string ssid, std::string password)
 {
-//    esp_wifi_disconnect();
-//    esp_wifi_stop();
-
     if (m_testConnection)
         return;
 
     m_testConnection = true;
 
     printf("Attempting to connect\r\n");
-    auto ret = wifi.connectAP(ssid, password, true, WIFI_MODE_APSTA);
+    auto ret = wifi.connectSTA(ssid, password, true);
     printf("Connect done, result %d\r\n", ret);
     vTaskDelay(1000 / portTICK_PERIOD_MS);
     m_testConnection = false;
 
     if (ret)
     {
-        esp_wifi_disconnect();
-        esp_wifi_set_mode(WIFI_MODE_AP);
+        wifi.disconnectSTA();
         return;
     }
     m_stationConnected = true;
+
+    if (m_stationModeRetryTimer)
+    {
+        xTimerDelete(m_stationModeRetryTimer, 500 / portTICK_PERIOD_MS);
+        m_stationModeRetryTimer = nullptr;
+    }
 
     NVS nvs("ls");
 

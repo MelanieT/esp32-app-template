@@ -26,6 +26,8 @@ private:
     std::string generateHostname(const std::string &hostname_base);
     void spiffsUpdate(const char *from);
     void firmwareUpdate(const char *from);
+    static void retryStationModeThunk(TimerHandle_t data);
+    void retryStationMode(TimerHandle_t handle) const;
 
     std::string m_hostname;
     bool m_stationConnected;
@@ -35,6 +37,7 @@ private:
     std::string m_password;
     bool m_apMode = false;
     bool m_testConnection = false;
+    TimerHandle_t m_stationModeRetryTimer = nullptr;
 };
 
 extern AppMain appMain;

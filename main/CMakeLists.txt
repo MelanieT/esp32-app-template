@@ -4,7 +4,7 @@ idf_component_register(
         "main.cpp"
         "EventHandler.cpp"
         "EventHandler.h"
-        "captdns.c"
+        "captdns.cpp"
         "captdns.h"
         "SimpleWebServer.cpp"
         "SimpleWebServer.h"
