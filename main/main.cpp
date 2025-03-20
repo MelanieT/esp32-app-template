@@ -12,26 +12,42 @@ using namespace std;
 static const char *TAG = CONFIG_AP_MODE_HOSTNAME_PREFIX;
 
 Ota ota;
-Console *console = nullptr;
+Console console;
 WiFi wifi;
+AppFramework framework(wifi);
 AppMain appMain;
 
 APP_RUN(appMain)
 
 void AppMain::run()
 {
-    
+    framework.init();
+    console.init(Console::TelnetConsole, [this](auto args){
+        this->processCommand(args);
+    });
 }
 
-void AppMain::apActive() {
+void AppMain::processCommand(vector<string> args)
+{
 
 }
-void AppMain::apStopped() {
 
+void AppMain::apActive()
+{
+    printf("AP active\r\n");
 }
-void AppMain::staActive() {
 
+void AppMain::apStopped()
+{
+    printf("AP stopped\r\n");
 }
-void AppMain::staStopped() {
 
+void AppMain::staActive()
+{
+    printf("STA active\r\n");
+}
+
+void AppMain::staStopped()
+{
+    printf("STA stopped\r\n");
 }
