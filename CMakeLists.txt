@@ -2,7 +2,15 @@
 # https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html
 # The following five lines of boilerplate have to be in your project's
 # CMakeLists in this exact order for cmake to work correctly
-cmake_minimum_required(VERSION 3.5)
+function(dump_cmake_variables)
+    get_cmake_property(_variableNames VARIABLES)
+    list (SORT _variableNames)
+    foreach (_variableName ${_variableNames})
+        message(STATUS "${_variableName}=${${_variableName}}")
+    endforeach()
+endfunction()
+
+cmake_minimum_required(VERSION 3.12)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 add_compile_options("-Wno-attributes")
 idf_build_set_property(COMPILE_OPTIONS "-w" APPEND)
