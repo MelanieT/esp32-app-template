@@ -3,14 +3,13 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/OTA" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/components/app-framework" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/base_console" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/console-cpp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/cpp_utils" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/esp-api-server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/components/esp32-app-framework" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/spiffs-ota" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/telnetd-bsd" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/components/uart-console" vcs="Git" />
     <mapping directory="/Volumes/Development/xtensa/esp-idf5" vcs="Git" />
     <mapping directory="/Volumes/Development/xtensa/esp-idf5/components/bootloader/subproject/components/micro-ecc/micro-ecc" vcs="Git" />
     <mapping directory="/Volumes/Development/xtensa/esp-idf5/components/bt/controller/lib_esp32" vcs="Git" />

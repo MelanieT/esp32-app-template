@@ -17,4 +17,4 @@ idf_build_set_property(COMPILE_OPTIONS "-w" APPEND)
 idf_build_set_property(COMPILE_OPTIONS "-fpermissive" APPEND)
 project(filtermeter)
 
-spiffs_create_partition_image(spiffs /Users/melanie/Projects/wifi-configurator/dist FLASH_IN_PROJECT)
+spiffs_create_partition_image(spiffs ${WEB_INTERFACE_DIR} FLASH_IN_PROJECT)
