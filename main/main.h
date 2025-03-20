@@ -2,10 +2,11 @@
 #include <string>
 #include <vector>
 #include "esp_http_server.h"
+#include "AppFramework.h"
 
 extern WiFi wifi;
 
-class AppMain
+class AppMain : AppFrameworkHandler
 {
 public:
     AppMain() = default;
@@ -13,11 +14,16 @@ public:
     void run();
     inline std::string hostname() { return m_hostname; };
     void apStarted();
-    void apStopped();
+    void apStoppedOld();
     void enterApMode();
     void tryConnectWifi(std::string ssid, std::string password);
     [[nodiscard]] inline bool stationConnected() const { return m_stationConnected; };
     inline std::string ssid() { return m_ssid; };
+
+    void apActive() override;
+    void apStopped() override;
+    void staActive() override;
+    void staStopped() override;
 
 private:
     void processCommand(std::vector<std::string> args);

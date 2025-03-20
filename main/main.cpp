@@ -151,7 +151,7 @@ void AppMain::apStarted()
         m_webserver = SimpleWebServer::start_webserver("/data");
 }
 
-void AppMain::apStopped()
+void AppMain::apStoppedOld()
 {
     if (m_webserver)
         SimpleWebServer::stop_webserver(m_webserver);
@@ -256,4 +256,20 @@ void AppMain::firmwareUpdate(const char *from)
     ota.update("http://192.168.201.50/lightswitch/lightswitch/rom.img");
 
     esp_restart();
+}
+
+void AppMain::apActive()
+{
+}
+
+void AppMain::apStopped()
+{
+}
+
+void AppMain::staActive()
+{
+}
+
+void AppMain::staStopped()
+{
 }

@@ -67,6 +67,6 @@ esp_err_t EventHandler::apStart()
 
 esp_err_t EventHandler::apStop()
 {
-    appMain.apStopped();
+    appMain.apStoppedOld();
     return WiFiEventHandler::apStop();
 }
