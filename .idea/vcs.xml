@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/OTA" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/components/app-framework" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/base_console" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/console-cpp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/components/cpp_utils" vcs="Git" />

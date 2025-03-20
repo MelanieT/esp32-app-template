@@ -10,9 +10,6 @@
 [submodule "components/esp-api-server"]
 	path = components/esp-api-server
 	url = git@github.com:MelanieT/esp-api-server.git
-[submodule "components/uart-console"]
-	path = components/uart-console
-	url = git@github.com:MelanieT/uart-console.git
 [submodule "components/telnetd-bsd"]
 	path = components/telnetd-bsd
 	url = git@github.com:MelanieT/telnetd-bsd.git
@@ -22,3 +19,6 @@
 [submodule "components/spiffs-ota"]
 	path = components/spiffs-ota
 	url = git@github.com:MelanieT/spiffs-ota.git
+[submodule "components/esp32-app-framework"]
+	path = components/esp32-app-framework
+	url = git@github.com:MelanieT/esp32-app-framework.git
