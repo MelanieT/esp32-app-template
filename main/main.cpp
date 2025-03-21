@@ -14,7 +14,7 @@ static const char *TAG = CONFIG_AP_MODE_HOSTNAME_PREFIX;
 Ota ota;
 Console console;
 WiFi wifi;
-AppFramework framework(wifi);
+AppFramework framework(&wifi);
 AppMain appMain;
 
 APP_RUN(appMain)
@@ -22,9 +22,13 @@ APP_RUN(appMain)
 void AppMain::run()
 {
     framework.init();
+    framework.setHandler(this);
+
     console.init(Console::TelnetConsole, [this](auto args){
         this->processCommand(args);
     });
+
+    vTaskDelete(nullptr);
 }
 
 void AppMain::processCommand(vector<string> args)
