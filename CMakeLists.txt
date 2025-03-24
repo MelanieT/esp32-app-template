@@ -15,6 +15,6 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 add_compile_options("-Wno-attributes")
 idf_build_set_property(COMPILE_OPTIONS "-w" APPEND)
 idf_build_set_property(COMPILE_OPTIONS "-fpermissive" APPEND)
-project(filtermeter)
+project(app-framework)
 
 spiffs_create_partition_image(spiffs ${CONFIG_WEB_INTERFACE_DIR} FLASH_IN_PROJECT)
