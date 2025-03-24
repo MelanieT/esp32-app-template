@@ -1,16 +1,8 @@
 # This file was generated using idf.py save-defconfig. It can be edited manually.
 # Espressif IoT Development Framework (ESP-IDF) 5.3.1 Project Minimal Configuration
 #
-CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
-CONFIG_PARTITION_TABLE_CUSTOM=y
 CONFIG_COMPILER_CXX_EXCEPTIONS=y
-CONFIG_ESP_SYSTEM_PANIC_GDBSTUB=y
+CONFIG_HTTPD_MAX_REQ_HDR_LEN=2048
 CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=8192
 CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
 CONFIG_ESP_WIFI_NVS_ENABLED=n
-CONFIG_OTA_SERVER_URI="http://192.168.201.50/filtermeter/filtermete/rom.img"
-CONFIG_USE_SETUP_WEB_INTERFACE=y
-CONFIG_WEB_INTERFACE_DIR="/Users/melanie/Projects/wifi-configurator/dist"
-CONFIG_AP_MODE_HOSTNAME_PREFIX="filtermeter"
-CONFIG_AP_MODE_PASSWORD="alameda0"
-CONFIG_SPIFFS_OTA_URI="http://192.168.201.50/filtermeter/filtermete"

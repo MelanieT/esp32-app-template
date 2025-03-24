@@ -6,6 +6,7 @@
 #include "ota.h"
 #include "CPPNVS.h"
 #include "spiffs-ota.h"
+#include "console.h"
 
 using namespace std;
 
@@ -21,8 +22,9 @@ APP_RUN(appMain)
 
 void AppMain::run()
 {
-    framework.init();
     framework.setHandler(this);
+    framework.setWebAppIsSpa(true);
+    framework.init();
 
     console.init(Console::TelnetConsole, [this](auto args){
         this->processCommand(args);
@@ -31,27 +33,25 @@ void AppMain::run()
     vTaskDelete(nullptr);
 }
 
-void AppMain::processCommand(vector<string> args)
+void AppMain::processCommand(vector<string> args) // NOLINT
 {
+    if (args.empty())
+        return;
 
-}
+    if (args[0] == "update")
+    {
+        console_printf("Updating SPIFFS\r\n");
+        ota_spiffs("spiffs");
 
-void AppMain::apActive()
-{
-    printf("AP active\r\n");
-}
-
-void AppMain::apStopped()
-{
-    printf("AP stopped\r\n");
+        console_printf("Updating firmware\r\n");
+        ota.update(); // Does not return
+    }
 }
 
 void AppMain::staActive()
 {
-    printf("STA active\r\n");
 }
 
 void AppMain::staStopped()
 {
-    printf("STA stopped\r\n");
 }
