@@ -1,24 +1,24 @@
 [submodule "components/OTA"]
 	path = components/OTA
-	url = git@github.com:MelanieT/OTA.git
+	url = https://github.com/MelanieT/OTA.git
 [submodule "components/cpp_utils"]
 	path = components/cpp_utils
-	url = git@github.com:MelanieT/cpp_utils.git
+	url = https://github.com/MelanieT/cpp_utils.git
 [submodule "components/console-cpp"]
 	path = components/console-cpp
-	url = git@github.com:MelanieT/console-cpp.git
+	url = https://github.com/MelanieT/console-cpp.git
 [submodule "components/esp-api-server"]
 	path = components/esp-api-server
-	url = git@github.com:MelanieT/esp-api-server.git
+	url = https://github.com/MelanieT/esp-api-server.git
 [submodule "components/telnetd-bsd"]
 	path = components/telnetd-bsd
-	url = git@github.com:MelanieT/telnetd-bsd.git
+	url = https://github.com/MelanieT/telnetd-bsd.git
 [submodule "components/base_console"]
 	path = components/base_console
-	url = git@github.com:MelanieT/base_console.git
+	url = https://github.com/MelanieT/base_console.git
 [submodule "components/spiffs-ota"]
-	path = components/spiffs-ota
-	url = git@github.com:MelanieT/spiffs-ota.git
+    path = components/spiffs-ota
+    url = https://github.com/MelanieT/spiffs-ota.git
 [submodule "components/esp32-app-framework"]
-	path = components/esp32-app-framework
-	url = git@github.com:MelanieT/esp32-app-framework.git
+    path = components/esp32-app-framework
+    url = https://github.com/MelanieT/esp32-app-framework.git
