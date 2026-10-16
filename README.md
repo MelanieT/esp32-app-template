@@ -12,7 +12,7 @@ Credits are given to all authors of the projects, located in repositories of the
 
 ### Getting started ###
 
-> First, ensure you have an installed and configured ESP-IDF version 5.4 or higher. You will need to have run the IDF's export.sh script in the shell you use to build this project.
+> First, ensure you have an installed and configured ESP-IDF, version 5.3.1 is the one this is built and tested with. You will need to have run the IDF's export.sh script in the shell you use to build this project.
 
 These instructions work on MacOS and Linux. I do not use Windows, so I can't point out the specific steps that may be different, but generally speaking, if you follow the ESP IDF installation instructions for Windows and have installed git for Windows and some kind of linux-based shell, as provided by both the git for Windows package (Git Bash) and cygwin, you should be good to go.
 
@@ -34,7 +34,7 @@ The next step is to configure the project. Here, you will need to determine whic
 
 OTA (over the air update) requires an update server. It is easy to run one on your own computer, using Python's flask web server is probably the easiest way. How to do that is out of scope for this document. However, you need to be able to retrieve both the built firmware and the web interface from a URL in order to use OTA. If you don't have a server, or don't want to use OTA, skip the relevant sections marked **OTA**.
 
-If you wish to use the web based Wifi setup, you will need to download and build a web interface that performs that task. Mine can be found here [https://github.com/MelanieT/wifi-configurator.git](https://github.com/MelanieT/wifi-configurator.git). This is a separate download and build that requires a different toolbox. Refer to the project on how to build it.
+If you wish to use the web based Wifi setup, you will need to download and build a web interface that performs that task. Mine can be found here [https://github.com/MelanieT/wifi-configurator.git](https://github.com/MelanieT/wifi-configurator.git). This is a separate download and build that requires a different toolbox. Refer to the project on how to build it. It builds one web interface per product: `yarn build template` builds the wifi setup with a placeholder status page into `dist-template`. For your app, add a product with its own pages there.
 
 It is also possible to OTA update the web application, it can be done using the same server you may already have for the firmware OTA. The web setup is optional, if you don't need it, skip the sections marked **WEB**.
 
@@ -70,7 +70,11 @@ If you selected to run the web server on wifi connections, you can also enable t
 
 Finally, set the hostname prefix. The hostname prefix will be used to generate a hostname of the form prefix-XXXXXX.local, and also becomes the name of the access point, if configured.
 
-Exit the components menu and select Serial flasher config. Set the flash size of your device. 4MB is the minimum supported by this project. If your flash size is larger, you may want to modify partitions.csv to take advantage of the additional space.
+When the configured network can't be joined ("Failed connection attempts before opening the setup access point", 5 by default), the setup access point opens, so the device can be given a new network. The network is retried in the background ("Seconds between attempts to rejoin the network", 60 by default) while nobody uses the access point, and the access point closes again once it's back.
+
+`sdkconfig.defaults` already enables the web setup and the web server on wifi, sets the hostname prefix `esp32-app` and points the web interface at `dist-template` of wifi-configurator. Change these for your app. The `sdkconfig` itself is generated from it and not part of the repository.
+
+Exit the components menu and select Serial flasher config. Set the flash size of your device. 4MB is the minimum supported by this project, and the default. If your flash size is larger, you may want to modify partitions.csv to take advantage of the additional space. The code is optimized for size by default, which leaves about a fifth of the 4MB layout's app partitions free.
 
 Now, run
 
@@ -78,6 +82,8 @@ Now, run
 
 If all goes well, you will now have a firmware image. This is the moment to open the project in the IDE of your choice. As with all ESP32 projects, you will need to select a toolchain and a build directory. In order to be compatible with ESP IDF, the build directory **MUST** be named "build".
 
-You can now edit and expand main/main.cpp to create your application functionality.
+You can now edit and expand main/main.cpp to create your application functionality. Rename the project in the top level CMakeLists.txt.
+
+The telnet console (port 23) knows `help`, `info`, `update` (web interface and firmware by OTA), `forgetwifi` (back into setup) and `reboot`. Add your own commands in `AppMain::processCommand`.
 
 #### Happy hacking ####
