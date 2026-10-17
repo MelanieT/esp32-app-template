@@ -53,6 +53,8 @@ void AppMain::processCommand(vector<string> args) // NOLINT
     }
     else if (args[0] == "update")
     {
+        framework.stopWebServer(); // The web interface is about to be overwritten
+
         console_printf("Updating SPIFFS\r\n");
         ota_spiffs("spiffs");
 
